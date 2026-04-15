@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">WiFi Country Code</string>
+    <string name="xposed_desc">An Xposed module to modify the Wi-Fi country code on Android devices. This allows you to bypass regional restrictions on Wi-Fi channels.</string>
+    
+    <!-- Navigation -->
+    <string name="navi_btn_config">Configuration</string>
+    <string name="navi_btn_about">About</string>
+    
+    <!-- Configuration Screen -->
+    <string name="config_title">Configuration</string>
+    <string name="config_enable">Enable Hook</string>
+    <string name="config_enable_desc">Enable or disable the Wi-Fi country code modification</string>
+    <string name="config_country_code">Country Code</string>
+    <string name="config_country_code_desc">Two-letter country code (e.g., US, CN, JP, GB)</string>
+    <string name="config_country_code_hint">Enter country code</string>
+    <string name="config_save">Save</string>
+    <string name="config_saved">Configuration saved</string>
+    <string name="config_invalid_code">Please enter a valid 2-letter country code</string>
+    
+    <!-- About Screen -->
+    <string name="about_title">About</string>
+    <string name="about_item_title_version">Version</string>
+    <string name="about_item_title_build_time">Build Time</string>
+    <string name="about_item_title_author">Author</string>
+    <string name="about_item_title_project">Project</string>
+    <string name="about_item_title_description">Description</string>
+    <string name="about_description">An Xposed module to modify the Wi-Fi country code on Android devices. This allows you to bypass regional restrictions on Wi-Fi channels.</string>
+    
+    <!-- Module Status -->
+    <string name="module_status">Module Status</string>
+    <string name="module_active">Module is active</string>
+    <string name="module_inactive">Module is not active</string>
+</resources>
