@@ -1,17 +1,17 @@
 [versions]
 agp = "9.1.1"
-kotlin = "2.3.20"
+kotlin = "2.3.21"
 ksp = "2.3.2"
 coreKtx = "1.18.0"
 activityCompose = "1.13.0"
-composeBom = "2026.03.01"
-navigationCompose = "2.9.7"
+composeBom = "2026.05.00"
+navigationCompose = "2.9.8"
 kotlinx-serialization-json = "1.11.0"
-kotlinx-serialization = "2.3.20"
+kotlinx-serialization = "2.3.21"
 xposed = "82"
-uiTooling = "1.10.6"
+uiTooling = "1.11.1"
 ezXHelper = "3.1.1-rc1"
-dependency-analysis = "3.7.0"
+dependency-analysis = "3.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
