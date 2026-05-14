@@ -29,5 +29,6 @@
     <!-- Module Status -->
     <string name="module_status">Module Status</string>
     <string name="module_active">Module is active</string>
-    <string name="module_inactive">Module is not active</string>
+    <string name="module_inactive">Module is not activated</string>
+    <string name="module_inactive_hint">Please enable this module in your Xposed manager first</string>
 </resources>

@@ -1,5 +1,6 @@
 package io.github.mirukurusan.wificountrycode.ui.route.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +76,8 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
 
             ModuleStatusCard(
                 enabled = viewModel.configState.enabled.value,
-                onEnabledChange = { viewModel.configState.enabled.value = it }
+                onEnabledChange = { viewModel.configState.enabled.value = it },
+                moduleActive = viewModel.moduleActive.value
             )
 
             Spacer(modifier = Modifier.size(24.dp))
@@ -81,7 +87,7 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
             CountryCodeInput(
                 value = viewModel.configState.countryCode.value,
                 onValueChange = { viewModel.configState.countryCode.value = it.uppercase() },
-                enabled = viewModel.configState.enabled.value
+                enabled = viewModel.moduleActive.value && viewModel.configState.enabled.value
             )
 
             Spacer(modifier = Modifier.size(24.dp))
@@ -89,7 +95,7 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
             // Quick Select Buttons
             QuickCountryCodeSelect(
                 onCodeSelected = { viewModel.configState.countryCode.value = it },
-                enabled = viewModel.configState.enabled.value
+                enabled = viewModel.moduleActive.value && viewModel.configState.enabled.value
             )
 
             Spacer(modifier = Modifier.size(32.dp))
@@ -97,7 +103,8 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
             // Save Button
             Button(
                 onClick = { viewModel.saveConfig() },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = viewModel.moduleActive.value
             ) {
                 Icon(Icons.Filled.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -113,20 +120,57 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
 private fun ModuleActivationStatus(
     active: Boolean
 ) {
+    val containerColor = if (active)
+        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+    else
+        MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+    val contentColor = if (active)
+        MaterialTheme.colorScheme.primary
+    else
+        MaterialTheme.colorScheme.error
+    val icon = if (active) Icons.Filled.CheckCircle else Icons.Filled.Error
     val text = if (active) stringResource(R.string.module_active) else stringResource(R.string.module_inactive)
-    val color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-    Text(
-        text = text,
-        style = MaterialTheme.typography.bodyLarge,
-        color = color,
-        modifier = Modifier.padding(vertical = 4.dp)
-    )
+    val hint = if (!active) stringResource(R.string.module_inactive_hint) else null
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(containerColor)
+            .padding(16.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleMedium,
+                color = contentColor
+            )
+        }
+        if (hint != null) {
+            Text(
+                text = hint,
+                style = MaterialTheme.typography.bodySmall,
+                color = contentColor.copy(alpha = 0.7f),
+                modifier = Modifier.padding(start = 36.dp, top = 4.dp)
+            )
+        }
+    }
 }
 
 @Composable
 private fun ModuleStatusCard(
     enabled: Boolean,
-    onEnabledChange: (Boolean) -> Unit
+    onEnabledChange: (Boolean) -> Unit,
+    moduleActive: Boolean
 ) {
     Row(
         modifier = Modifier
@@ -140,17 +184,20 @@ private fun ModuleStatusCard(
         ) {
             Text(
                 text = stringResource(R.string.config_enable),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = if (moduleActive) MaterialTheme.colorScheme.onSurface
+                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
             )
             Text(
                 text = stringResource(R.string.config_enable_desc),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (moduleActive) 0.7f else 0.38f)
             )
         }
         Switch(
             checked = enabled,
-            onCheckedChange = onEnabledChange
+            onCheckedChange = onEnabledChange,
+            enabled = moduleActive
         )
     }
 }
