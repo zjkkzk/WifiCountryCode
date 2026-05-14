@@ -51,7 +51,7 @@ object HookConfig {
             }
         }
 
-        var isModuleActive = false
+        fun isModuleActive(): Boolean = false
 
         fun get(): Configuration {
             val config = sharedPref.getString(KEY_CONFIG, "")!!

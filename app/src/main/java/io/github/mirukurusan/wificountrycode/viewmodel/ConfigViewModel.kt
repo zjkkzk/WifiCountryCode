@@ -12,10 +12,12 @@ import kotlinx.coroutines.launch
 class ConfigViewModel : ViewModel() {
     
     val configState = State.default
+    val moduleActive = mutableStateOf(false)
 
     // Load configuration
     fun loadConfig() {
         viewModelScope.launch(Dispatchers.IO) {
+            moduleActive.value = HookConfig.APP.isModuleActive()
             val config = HookConfig.APP.get()
             configState.toState(config)
         }

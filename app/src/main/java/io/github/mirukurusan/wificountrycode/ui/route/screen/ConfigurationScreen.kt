@@ -63,6 +63,12 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
         ) {
             // Module Status Section
             SmallTitle { stringResource(R.string.module_status) }
+            ModuleActivationStatus(
+                active = viewModel.moduleActive.value
+            )
+
+            Spacer(modifier = Modifier.size(16.dp))
+
             ModuleStatusCard(
                 enabled = viewModel.configState.enabled.value,
                 onEnabledChange = { viewModel.configState.enabled.value = it }
@@ -101,6 +107,20 @@ fun ConfigurationScreen(viewModel: ConfigViewModel) {
             Spacer(modifier = Modifier.size(16.dp))
         }
     }
+}
+
+@Composable
+private fun ModuleActivationStatus(
+    active: Boolean
+) {
+    val text = if (active) stringResource(R.string.module_active) else stringResource(R.string.module_inactive)
+    val color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        color = color,
+        modifier = Modifier.padding(vertical = 4.dp)
+    )
 }
 
 @Composable
