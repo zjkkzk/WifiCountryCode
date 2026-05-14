@@ -1,5 +1,6 @@
 package io.github.mirukurusan.wificountrycode.ui.route.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
@@ -47,8 +49,18 @@ import io.github.mirukurusan.wificountrycode.viewmodel.ConfigViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfigurationScreen(viewModel: ConfigViewModel) {
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         viewModel.loadConfig()
+    }
+
+    // Listen for save success and show toast
+    LaunchedEffect(viewModel.saveSuccess.value) {
+        if (viewModel.saveSuccess.value) {
+            Toast.makeText(context, "Configuration saved", Toast.LENGTH_SHORT).show()
+            viewModel.saveSuccess.value = false // Reset the state
+        }
     }
 
     Scaffold(

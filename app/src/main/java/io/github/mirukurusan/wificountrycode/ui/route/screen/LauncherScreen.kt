@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,6 +56,7 @@ private val currentPage = mutableStateOf(TopLevelDestination.CONFIG)
  * Main launcher screen with bottom navigation
  */
 @Composable
+@Preview
 fun LauncherScreen() {
     val bottomNavBackground = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05F)
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {

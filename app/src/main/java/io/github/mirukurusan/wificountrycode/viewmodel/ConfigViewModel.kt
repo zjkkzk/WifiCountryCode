@@ -1,5 +1,6 @@
 package io.github.mirukurusan.wificountrycode.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,9 +10,10 @@ import io.github.mirukurusan.wificountrycode.data.Configuration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ConfigViewModel : ViewModel() {
-    
+class ConfigViewModel(private val context: Context) : ViewModel() {
+
     val configState = State.default
+    val saveSuccess = mutableStateOf(false)
     val moduleActive = mutableStateOf(false)
 
     // Load configuration
@@ -28,14 +30,21 @@ class ConfigViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val configuration = Configuration(configState)
             HookConfig.APP.save(configuration)
+            saveSuccess.value = true
         }
     }
 
     companion object {
+        private lateinit var applicationContext: Context
+
+        fun initialize(context: Context) {
+            applicationContext = context.applicationContext
+        }
+
         fun provideFactory(): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return ConfigViewModel() as T
+                return ConfigViewModel(applicationContext) as T
             }
         }
     }
