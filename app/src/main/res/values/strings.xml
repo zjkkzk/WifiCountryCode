@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WiFi Country Code</string>
+    <string name="app_name">WiFiCountryCode</string>
     <string name="xposed_desc">An Xposed module to modify the Wi-Fi country code on Android devices. This allows you to bypass regional restrictions on Wi-Fi channels.</string>
     
     <!-- Navigation -->
